@@ -1,22 +1,67 @@
 /* eslint-disable react/no-unescaped-entities */
-import healthImg from '../assets/images/health.jpg';
-import nationImg from '../assets/images/nation.jpg';
-import scienceImg from '../assets/images/science.jpg';
-import sportImg from '../assets/images/sports.jpg';
-import techImg from '../assets/images/tech.jpg';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import noImg from '../assets/images/no-img.png';
 import userImg from '../assets/images/user.jpg';
-import worldImg from '../assets/images/world.jpg';
 import Calendar from './Calendar';
 import './News.css';
 import Weather from './Weather';
+
+
+const categories = ["general", "world", "business", "technology", "entertainment", "sport", "science", "health", "nation"];
+
+
+
 const News = () => {
+
+    const [headline, setHeadline] = useState(null);
+    const [news, setNews] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('general');
+    const [searchInput, setSearchInput] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
+
+
+    useEffect(()=>{
+        const fetchNews = async()=>{
+            let url =`https://gnews.io/api/v4/top-headlines?category=${selectedCategory}&lang=en&apikey=6d05f248e77a4199220fcf381efb7b8e`;
+
+            if(searchQuery){
+                url= `https://gnews.io/api/v4/search?q=${searchQuery}&lang=en&apikey=6d05f248e77a4199220fcf381efb7b8e`
+            }
+            const response = await axios.get(url);
+            const fetchNews = response.data.articles;
+
+            fetchNews.forEach((article) => {
+                if(!article.image){
+                    article.image= noImg;
+                }
+            });
+            
+            setHeadline(fetchNews[0]);
+            setNews(fetchNews.slice(1,7));
+            console.log(fetchNews[0]);
+        }
+        fetchNews();
+    },[selectedCategory, searchQuery]);
+
+    const handleCategoryClick= (e, category)=>{
+        e.preventDefault();
+        setSelectedCategory(category);
+    }
+
+    const handleSearch =(e) =>{
+        e.preventDefault();
+        setSearchQuery(searchInput);
+        setSearchInput('');
+    }
+
     return (
         <div className="news">
             <header className="news-header">
                 <h1 className='logo'>NEWS & BLOGS</h1>
                 <div className="search-bar">
-                    <form >
-                        <input type="text" placeholder="Search News..." />
+                    <form onSubmit={handleSearch} >
+                        <input type="text" placeholder="Search News..." value={searchInput} onChange={(e)=> setSearchInput(e.target.value)} />
                         <button type='submit'>
                             <i className="fa-solid fa-magnifying-glass"></i>
                         </button>
@@ -33,15 +78,10 @@ const News = () => {
                     <nav className="categories">
                         <h1 className="nav-heading">Categories</h1>
                         <div className="nav-links">
-                            <a href="#" className='nav-link'>General</a>
-                            <a href="#" className='nav-link'>World</a>
-                            <a href="#" className='nav-link'>Business</a>
-                            <a href="#" className='nav-link'>Technology</a>
-                            <a href="#" className='nav-link'>Entertainment</a>
-                            <a href="#" className='nav-link'>Sports</a>
-                            <a href="#" className='nav-link'>Science</a>
-                            <a href="#" className='nav-link'>Health</a>
-                            <a href="#" className='nav-link'>Nation</a>
+                            {categories.map((category)=>(
+                                <a href="#" key={category} className='nav-link' onClick={(e)=> handleCategoryClick(e,category)}>{category}</a>
+                            ))}
+                            
                             <a href="#" className='nav-link'>Bookmarks
                                 <i className='fa-regular fa-bookmark'></i>
                             </a>
@@ -49,56 +89,25 @@ const News = () => {
                     </nav>
                 </div>
                 <div className="news-section">
-                    <div className="headline">
-                        <img src={techImg} alt="Headline Image" />
+                    {headline && (<div className="headline">
+                        <img src={headline.image || noImg} alt={headline.title} />
                         <h2 className="headline-title">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, inventore.
+                            {headline.title}
                             <i className='fa-regular fa-bookmark bookmark'></i>
                         </h2>
                     </div>
+                    )}
+                    
                     <div className="news-grid">
-                        <div className="news-grid-item">
-                            <img src={techImg} alt="News Image" />
+                        {news.map((article, index)=>(
+                            <div  key={index} className="news-grid-item">
+                            <img src={article.image || noImg} alt={article.title} />
                             <h3>
-                                Lorem ipsum dolor sit amet.
+                                {article.title}
                                 <i className='fa-regular fa-bookmark bookmark'></i>
                             </h3>
                         </div>
-                        <div className="news-grid-item">
-                            <img src={sportImg} alt="News Image" />
-                            <h3>
-                                Lorem ipsum dolor sit amet.
-                                <i className='fa-regular fa-bookmark bookmark'></i>
-                            </h3>
-                        </div>
-                        <div className="news-grid-item">
-                            <img src={healthImg} alt="News Image" />
-                            <h3>
-                                Lorem ipsum dolor sit amet.
-                                <i className='fa-regular fa-bookmark bookmark'></i>
-                            </h3>
-                        </div>
-                        <div className="news-grid-item">
-                            <img src={scienceImg} alt="News Image" />
-                            <h3>
-                                Lorem ipsum dolor sit amet.
-                                <i className='fa-regular fa-bookmark bookmark'></i>
-                            </h3>
-                        </div>
-                        <div className="news-grid-item">
-                            <img src={nationImg} alt="News Image" />
-                            <h3>
-                                Lorem ipsum dolor sit amet.
-                                <i className='fa-regular fa-bookmark bookmark'></i>
-                            </h3>
-                        </div>
-                        <div className="news-grid-item">
-                            <img src={worldImg} alt="News Image" />
-                            <h3>
-                                Lorem ipsum dolor sit amet.
-                                <i className='fa-regular fa-bookmark bookmark'></i>
-                            </h3>
-                        </div>
+                        ))}
                     </div>
                 </div>
                 <div className="my-blog">My Blogs</div>
