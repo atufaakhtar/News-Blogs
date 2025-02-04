@@ -1,3 +1,4 @@
+import './Modal.css';
 import "./NewsModal.css";
 
 const NewsModal = ({show, article, onClose}) => {

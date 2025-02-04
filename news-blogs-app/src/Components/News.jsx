@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import noImg from '../assets/images/no-img.png';
 import userImg from '../assets/images/user.jpg';
+import Bookmark from './Bookmark';
 import Calendar from './Calendar';
 import './News.css';
 import NewsModal from './NewsModal';
@@ -119,6 +120,7 @@ const News = () => {
                     </div>
                 </div>
                 <NewsModal show={showModal} article={selectedArticle} onClose={()=> setShowModal(false)}/>
+                <Bookmark/>
                 <div className="my-blog">My Blogs</div>
                 <div className="weather-calendar">
                     <Weather/>
