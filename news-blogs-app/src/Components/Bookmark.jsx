@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import noImg from '../assets/images/no-img.png';
 import './Bookmark.css';
 import './Modal.css';

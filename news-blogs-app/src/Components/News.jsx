@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -14,7 +15,7 @@ const categories = ["general", "world", "business", "technology", "entertainment
 
 
 
-const News = () => {
+const News = ({onShowBlogs}) => {
 
     const [headline, setHeadline] = useState(null);
     const [news, setNews] = useState([]);
@@ -94,7 +95,7 @@ const News = () => {
 
             <div className="news-content">
                 <div className="navbar">
-                    <div className="user">
+                    <div className="user" onClick={onShowBlogs}>
                         <img src={userImg} alt="User Image" />
                         <p>Atufa's Blog</p>
                     </div>

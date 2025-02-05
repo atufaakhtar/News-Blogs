@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import userImg from '../assets/images/user.jpg';
 import './Blogs.css';
 
-const Blogs = () => {
+const Blogs = ({onBack}) => {
     return (
         <div className="blogs">
             <div className="blogs-left">
@@ -23,7 +24,7 @@ const Blogs = () => {
                         <button type='submit' className='submit-btn'>Submit Button</button>
                     </form>
                 </div>
-                <button className="blogs-close-btn">
+                <button className="blogs-close-btn" onClick={onBack}>
                     Back <i className='bx bx-chevron-right'></i>
                 </button>
             </div>
