@@ -74,8 +74,30 @@
     color: rgba(246, 195, 28, 0.991);
 }
 
+.weather-data i.bxs-cloud{
+    color: rgba(228, 229, 233, 0.991);
+}
+.weather-data i.bx-cloud-rain{
+    color: rgba(75, 144, 187, 0.991);
+}
+
+.weather-data i.bx-cloud-lighting{
+    color: rgba(168, 14, 14, 0.991);
+}
+
+.weather-data i.bx-cloud-snow{
+    color: rgba(125, 220, 246, 0.89);
+}
+
 .weather-type, .temp{
     font-family: "Comfortaa", sans-serif;
     font-size: 1.5rem;
     color: #ddd;
+}
+
+.not-found{
+    font-family:"Comfortaa", sans-serif ;
+    font-size: 1.6rem;
+    color: #ddd;
+    margin-bottom: 12rem;
 }
