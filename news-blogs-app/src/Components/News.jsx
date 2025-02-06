@@ -16,7 +16,7 @@ const categories = ["general", "world", "business", "technology", "entertainment
 
 
 
-const News = ({onShowBlogs, blogs, onEditBlog}) => {
+const News = ({onShowBlogs, blogs, onEditBlog,onDeleteBlog}) => {
 
     const [headline, setHeadline] = useState(null);
     const [news, setNews] = useState([]);
@@ -170,7 +170,9 @@ const News = ({onShowBlogs, blogs, onEditBlog}) => {
                                 <button className="edit-post" onClick={()=> onEditBlog(blog)}>
                                     <i className="bx bxs-edit"></i>
                                 </button>
-                                <button className="delete-post">
+                                <button className="delete-post" onClick={(e)=> {
+                                    e.stopPropagation();
+                                    onDeleteBlog(blog)}}>
                                     <i className="bx bxs-x-circle"></i>
                                 </button>
                             </div>
