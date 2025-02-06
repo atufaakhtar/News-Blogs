@@ -16,7 +16,7 @@ const categories = ["general", "world", "business", "technology", "entertainment
 
 
 
-const News = ({onShowBlogs, blogs}) => {
+const News = ({onShowBlogs, blogs, onEditBlog}) => {
 
     const [headline, setHeadline] = useState(null);
     const [news, setNews] = useState([]);
@@ -166,9 +166,8 @@ const News = ({onShowBlogs, blogs}) => {
                             <div key={index} className="blog-post" onClick={()=> handleBlogClick(blog)}>
                             <img src={blog.image || noImg} alt={blog.title} />
                             <h3>{blog.title}</h3>
-                            {/*<p>{blog.content}</p>*/}
                             <div className="post-buttons">
-                                <button className="edit-post">
+                                <button className="edit-post" onClick={()=> onEditBlog(blog)}>
                                     <i className="bx bxs-edit"></i>
                                 </button>
                                 <button className="delete-post">

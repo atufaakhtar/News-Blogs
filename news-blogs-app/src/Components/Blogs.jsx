@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import noImg from '../assets/images/no-img.png';
 import userImg from '../assets/images/user.jpg';
 import './Blogs.css';
 
-const Blogs = ({onBack, onCreateBlog }) => {
+const Blogs = ({onBack, onCreateBlog ,editPost, isEditing}) => {
 
     const [showForm, setShowForm] = useState(false);
     const [image, setImage] = useState(null);
@@ -13,6 +13,20 @@ const Blogs = ({onBack, onCreateBlog }) => {
     const [submitted, setSubmitted] = useState(false);
     const [titleValid, setTitleValid] = useState(true);
     const [contentValid, setContentValid] = useState(true);
+
+    useEffect(()=>{
+        if(isEditing && editPost){
+            setImage(editPost.image);
+            setTitle(editPost.title);
+            setContent(editPost.content);
+            setShowForm(true);
+        }else{
+            setImage(null);
+            setTitle("");
+            setContent("");
+            setShowForm(false);
+        }
+    },[isEditing, editPost])
 
     const handleImageChange = (e)=>{
         if(e.target.files && e.target.files[0]){
@@ -51,7 +65,7 @@ const Blogs = ({onBack, onCreateBlog }) => {
             return
         };
         const newBlog ={ image: image || noImg,title, content};
-        onCreateBlog(newBlog);
+        onCreateBlog(newBlog,isEditing);
         setImage(null);
         setTitle('');
         setContent('');
